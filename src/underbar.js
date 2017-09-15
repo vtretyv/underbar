@@ -179,6 +179,8 @@
   //     return total + number * number;
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
+
+  //Might be better way to do this one
   _.reduce = function(collection, iterator, accumulator) {
     var result;
     if (arguments.length === 3) {
@@ -186,7 +188,8 @@
         for (var i = 0; i < collection.length; i++) {
             result = iterator(result, collection[i]);
         }
-    } else {
+    } 
+    else {
         result = collection[0];
         for (var i = 1; i < collection.length; i++) {
             result = iterator(result, collection[i]);
@@ -196,6 +199,8 @@
   };
 
   // Determine if the array or object contains a given value (using `===`).
+
+  //Not sure what's wrong here
   _.contains = function(collection, target) {
     // TIP: Many iteration problems can be most easily expressed in
     // terms of reduce(). Here's a freebie to demonstrate!
@@ -226,6 +231,8 @@
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
+
+  //Need to finish this one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
         var res;
@@ -353,6 +360,9 @@
   // _.memoize should return a function that, when called, will check if it has
   // already computed the result for the given argument and return that value
   // instead if possible.
+
+  //Not sure how to use already called. Maybe by creating an object as a cache, then each cache attribute will have it's own already called attribute.
+  //Still stuck.
   _.memoize = function(func) {
     var result;
     var alreadyCalled = false;
