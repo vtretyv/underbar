@@ -185,9 +185,16 @@
     var result;
     if (arguments.length === 3) {
         result = accumulator;
+        if (Array.isArray(collection)){
         for (var i = 0; i < collection.length; i++) {
             result = iterator(result, collection[i]);
+          }
         }
+        else if ((typeof(collection) === "object") && (typeof(collection) !== null)) {
+        for (var key in collection) {
+            result = iterator(result, collection[key]);
+        }
+      }
     } 
     else {
         result = collection[0];
