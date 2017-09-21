@@ -236,36 +236,28 @@
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
         var res;
+        
     if (collection.length == 0){
       return false;
     }
     else if (arguments.length == 1){
       for (var i = 0; i < collection.length; i ++){
-        res = collection[i] === true;
+        if ((Boolean(collection[i]) == true)){
+          return true;
+        }
       }
-          return res;
+      return false;
     }
     else if (arguments.length == 2){
       for (var i = 0; i < collection.length; i ++){
-        if (iterator(collection[i]) === true){
+        if (Boolean(iterator(collection[i])) == true){
           return true;
         }
-        return false;
       }
+        return false;
     }
   };
 
-    /*for (var i = 0; i < collection.length; i ++){
-      if (Boolean(iterator(collection[i]))) {
-        res = true;
-        return res;
-      }
-      else if ((Boolean(iterator(collection[i])))) {
-        res = false;
-      }
-      return res;
-    }
-    */
 
 
   /**
@@ -340,6 +332,7 @@
 
     // TIP: We'll return a new function that delegates to the old one, but only
     // if it hasn't been called before.
+    //closure
     return function() {
       if (!alreadyCalled) {
         // TIP: .apply(this, arguments) is the standard way to pass on all of the
@@ -361,32 +354,35 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
 
-  //Not sure how to use already called. Maybe by creating an object as a cache, then each cache attribute will have it's own already called attribute.
+  //Not sure how to use already called. Maybe by creating an object as a cache, then attribute will be a call, wich a correlated result.
   //Still stuck.
+  //Finished by using implementing a cache instead of condiditonal based on two variables.
   _.memoize = function(func) {
     var result;
-    var alreadyCalled = false;
-    var sameArg = false;
     var cache = {};
-    if(cache[func] == arguments){
-      sameArg = true;
-    }
 
+    console.log(func);
+
+    //Closure
     return function() {
-      if ((!alreadyCalled)&& (!sameArg)) {
+
+      var myArgs;
+      //NEED to string
+      myArgs = JSON.stringify(arguments);
+
+      //Cut and paste from "once" method, then changed the conditional
+      if (cache.hasOwnProperty(myArgs) == false) {
         // TIP: .apply(this, arguments) is the standard way to pass on all of the
         // infromation from one function call to another.
-        result = func.apply(this, arguments);
-        alreadyCalled = true;
-        cache[func] = arguments;
-      }
-      else {
-        return result;
+        cache[myArgs] = func.apply(this,arguments); //Sets the cache, then passes it the function info
       }
       // The new function always returns the originally computed result.
-      return result;
-    }
+      return cache[myArgs];
+    };
   };
+
+      
+
 
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
@@ -418,7 +414,7 @@
     for (var i = 0; i < array.length ; i ++){
       x = Math.random();
       //console.log(x);
-      console.log("myArr",myArr);
+      //console.log("myArr",myArr);
       if (x >= 0.5){
         y = myArr.pop();
         result.push(y);
@@ -427,7 +423,7 @@
         y = myArr.shift()
         result.push(y);
       }
-            console.log("result",result);
+            //console.log("result",result);
     }
 
     return result;
